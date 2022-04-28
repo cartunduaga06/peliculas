@@ -5,13 +5,7 @@ import swalert from '@sweetalert/with-react'
 
 function Login(){
 
-    swalert({
-        title: 'Login',
-        text: 'Login',
-        icon: 'info',
-        buttons: true,
-        dangerMode: true,
-    })
+    
 
     const submithandler = e => {
         e.preventDefault();
@@ -23,7 +17,7 @@ function Login(){
         if(email === '' || password === '') {
            swalert({   
                 title: 'Error',
-                text: 'Please fill all the fields',
+                text: 'Por favor llene todos los campos',
                 icon: 'error',
                 buttons: true,
                 dangerMode: true,
@@ -34,13 +28,27 @@ function Login(){
         } 
     
         if(!regexEmail.test(email)) {
-            alert('Por favor ingrese un email valido');
+            swalert({
+                title: 'Error',
+                text: 'Por favor ingrese un email valido',
+                icon: 'error',
+                buttons: true,
+                dangerMode: true,
+            })
+           
             return
         
         } 
     
         if(email !== 'challenge@alkemy.org' || password !== 'react') {
-            alert('Por favor ingrese un usuario y contraseña validos');
+            
+            swalert({
+                title: 'Error',
+                text: 'Usuario o contraseña incorrectos',
+                icon: 'error',
+                buttons: true
+                
+            })
             return
         } 
         
@@ -48,6 +56,15 @@ function Login(){
         axios
             .post('http://challenge-react.alkemy.org',{email, password})
             .then(res => { 
+                swalert({
+                    title: 'Exito',
+                    text: 'Usuario logueado correctamente',
+                    icon: 'success',
+                    buttons: true,
+                    dangerMode: true,
+                })
+                localStorage.setItem('token', res.data.token)
+                
                 console.log(res.data);
                
             })
