@@ -2,11 +2,13 @@
 import axios from 'axios';
 
 import swalert from '@sweetalert/with-react'
+import { Navigate  } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 
 function Login(){
 
-    
-
+    let history = useNavigate();
+   
     const submithandler = e => {
         e.preventDefault();
         let regexEmail  = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -42,13 +44,7 @@ function Login(){
     
         if(email !== 'challenge@alkemy.org' || password !== 'react') {
             
-            swalert({
-                title: 'Error',
-                text: 'Usuario o contraseña incorrectos',
-                icon: 'error',
-                buttons: true
-                
-            })
+            swalert(<h2>correo o contraseña incorrecta </h2>)
             return
         } 
         
@@ -56,16 +52,13 @@ function Login(){
         axios
             .post('http://challenge-react.alkemy.org',{email, password})
             .then(res => { 
-                swalert({
-                    title: 'Exito',
-                    text: 'Usuario logueado correctamente',
-                    icon: 'success',
-                    buttons: true,
-                    dangerMode: true,
-                })
-                localStorage.setItem('token', res.data.token)
+                swalert(<h2>Perfecto, ingresaste correctamente</h2>)
+                localStorage.setItem('token', res.data.token);
+                // permite redireccionar a la ruta
+                history('/listado');
+
                 
-                console.log(res.data);
+                
                
             })
     
