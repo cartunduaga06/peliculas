@@ -5,6 +5,8 @@ import swalert from '@sweetalert/with-react'
 import { Navigate  } from 'react-router-dom';
 import {useNavigate } from 'react-router-dom';
 
+
+const swal = swalert();
 function Login(){
 
     let history = useNavigate();
@@ -17,7 +19,7 @@ function Login(){
         const password = e.target.password.value;
         
         if(email === '' || password === '') {
-           swalert({   
+           swal({   
                 title: 'Error',
                 text: 'Por favor llene todos los campos',
                 icon: 'error',
@@ -53,9 +55,9 @@ function Login(){
             .post('http://challenge-react.alkemy.org',{email, password})
             .then(res => { 
                 swalert(<h2>Perfecto, ingresaste correctamente</h2>)
-                localStorage.setItem('token', res.data.token);
+                sessionStorage.setItem('token', res.data.token);
                 // permite redireccionar a la ruta
-                history('/listado');
+                
 
                 
                 
@@ -64,7 +66,14 @@ function Login(){
     
         }
     
+
+        let token = sessionStorage.getItem("token");
+
     return (
+
+        <>
+        { token && <Navigate to="/listado"/>}
+
         <div className="login">
             <div className="login-form">
                 <div className="login-form-header">
@@ -92,6 +101,7 @@ function Login(){
                 </div>
             </div>
         </div>
+        </>
     );
 }
 
